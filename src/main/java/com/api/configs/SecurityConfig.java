@@ -15,9 +15,6 @@ import com.api.securities.JwtAuthenticationEntryPoint;
 import com.api.securities.JwtAuthenticationFilter;
 
 @Configuration
-//@EnableWebSecurity
-//@EnableWebMvc
-//@EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfig {
 	
 	@Autowired

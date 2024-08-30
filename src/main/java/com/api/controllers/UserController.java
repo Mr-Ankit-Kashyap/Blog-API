@@ -52,7 +52,7 @@ public class UserController {
 	}
 	
 	
-	//@PreAuthorize("hasRole('ADMIN')")
+	
 	@DeleteMapping("/{userId}")
     public ResponseEntity<ApiResponse> deleteUser(@PathVariable Long userId){
     	
