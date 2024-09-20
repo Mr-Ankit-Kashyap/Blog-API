@@ -2,7 +2,6 @@ package com.api.controllers;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -20,70 +19,53 @@ import com.api.services.CategoryService;
 
 import jakarta.validation.Valid;
 
-
-
 @RestController
 @RequestMapping("/api/categories")
 public class CategoryController {
-	
-	@Autowired
+
 	private CategoryService categoryService;
-	
-	
+
+	public CategoryController(CategoryService categoryService) {
+		this.categoryService = categoryService;
+	}
+
 	@PostMapping("/")
-	public ResponseEntity<CategoryDto> createCategory(@Valid @RequestBody CategoryDto categoryDto)
-	{
+	public ResponseEntity<CategoryDto> createCategory(@Valid @RequestBody CategoryDto categoryDto) {
 		CategoryDto saveCategoryDto = this.categoryService.createCategory(categoryDto);
-		
-	     return new ResponseEntity<>(saveCategoryDto,HttpStatus.CREATED);	
-		
+
+		return new ResponseEntity<>(saveCategoryDto, HttpStatus.CREATED);
+
 	}
-	
-	
-	
-	
+
 	@PutMapping("/{categoryId}")
-	public ResponseEntity<CategoryDto> updateCategory(@Valid @RequestBody CategoryDto categoryDto , @PathVariable Long categoryId)
-	{
+	public ResponseEntity<CategoryDto> updateCategory(@Valid @RequestBody CategoryDto categoryDto,
+			@PathVariable Long categoryId) {
 		CategoryDto updateCategoryDto = this.categoryService.updateCategory(categoryDto, categoryId);
-		
-		return new ResponseEntity<>(updateCategoryDto,HttpStatus.OK);
+
+		return new ResponseEntity<>(updateCategoryDto, HttpStatus.OK);
 	}
-	
-	
-	
 
 	@DeleteMapping("/{categoryId}")
-	public ResponseEntity<ApiResponse> deleteCategory(@PathVariable Long categoryId)
-	{
+	public ResponseEntity<ApiResponse> deleteCategory(@PathVariable Long categoryId) {
 		this.categoryService.deleteCategory(categoryId);
-		
-		return new ResponseEntity<ApiResponse>(new ApiResponse("Category delete Successfully " ,true),HttpStatus.OK);
-		
+
+		return new ResponseEntity<ApiResponse>(new ApiResponse("Category delete Successfully ", true), HttpStatus.OK);
+
 	}
-	
-	
-	
+
 	@GetMapping("/{categoryId}")
-	public ResponseEntity<CategoryDto> getCategory(@PathVariable Long categoryId)
-	{
+	public ResponseEntity<CategoryDto> getCategory(@PathVariable Long categoryId) {
 		CategoryDto getCategoryDto = this.categoryService.getCategoryById(categoryId);
-		
-		return new ResponseEntity<>(getCategoryDto,HttpStatus.OK);
+
+		return new ResponseEntity<>(getCategoryDto, HttpStatus.OK);
 	}
-	
-	
-	
+
 	@GetMapping("/")
-	public ResponseEntity<List<CategoryDto>> getUser(){
-		
+	public ResponseEntity<List<CategoryDto>> getUser() {
+
 		List<CategoryDto> categoryDtos = this.categoryService.getAllCategory();
-		
-		return new ResponseEntity<>(categoryDtos,HttpStatus.OK);
+
+		return new ResponseEntity<>(categoryDtos, HttpStatus.OK);
 	}
-	
-	
-	
-	
 
 }

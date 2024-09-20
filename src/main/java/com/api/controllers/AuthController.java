@@ -1,8 +1,5 @@
 package com.api.controllers;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -25,22 +22,24 @@ import com.api.services.UserService;
 @RestController
 @RequestMapping("/api/auth")
 public class AuthController {
-	
-	@Autowired
+
 	private JwtHelper helper;
 
-	@Autowired
 	private UserDetailsService userDetailsService;
 
-	@Autowired
 	private AuthenticationManager manager;
-	
-	@Autowired
-	private UserService userService;
-	
 
-	private Logger logger = LoggerFactory.getLogger(AuthController.class);
-	
+	private UserService userService;
+
+	public AuthController(JwtHelper helper, UserDetailsService userDetailsService, AuthenticationManager manager,
+			UserService userService) {
+		this.helper = helper;
+		this.userDetailsService = userDetailsService;
+		this.manager = manager;
+		this.userService = userService;
+	}
+
+
 
 	@PostMapping("/login")
 	public ResponseEntity<JwtResponse> login(@RequestBody JwtRequest request) {
@@ -53,8 +52,7 @@ public class AuthController {
 		JwtResponse response = JwtResponse.builder().jwtToken(token).username(userDetails.getUsername()).build();
 		return new ResponseEntity<>(response, HttpStatus.OK);
 	}
-	
-	
+
 	private void doAuthenticate(String email, String password) {
 
 		UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(email, password);
@@ -66,17 +64,14 @@ public class AuthController {
 		}
 
 	}
-	
+
 	@PostMapping("/register")
-	public ResponseEntity<UserDto> registerUser(@RequestBody UserDto userDto)
-	{
-		
+	public ResponseEntity<UserDto> registerUser(@RequestBody UserDto userDto) {
+
 		UserDto registerdUserDto = this.userService.registerNewUser(userDto);
-		
-		return new ResponseEntity<UserDto>(registerdUserDto,HttpStatus.CREATED);
-		
+
+		return new ResponseEntity<UserDto>(registerdUserDto, HttpStatus.CREATED);
+
 	}
-	
 
 }
-

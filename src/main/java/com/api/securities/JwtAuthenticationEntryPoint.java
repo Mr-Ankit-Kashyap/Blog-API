@@ -17,12 +17,9 @@ public class JwtAuthenticationEntryPoint implements AuthenticationEntryPoint {
 			org.springframework.security.core.AuthenticationException authException)
 			throws java.io.IOException, ServletException {
 		response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-        PrintWriter writer = response.getWriter();
-        writer.println("Access Denied !! " + authException.getMessage());
-		
+		PrintWriter writer = response.getWriter();
+		writer.println("Access Denied !! " + authException.getMessage());
+
 	}
-	
-	
-	
 
 }

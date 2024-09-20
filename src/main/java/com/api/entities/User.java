@@ -20,35 +20,37 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@Table(name="users")
+@Table(name = "users")
 @Setter
 @Getter
 @NoArgsConstructor
 public class User implements UserDetails {
-	
+
+	private static final long serialVersionUID = 1L;
+
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long Id;
-	
+
 	private String name;
-	
+
 	private String email;
-	
+
 	private String password;
-	
+
 	private String about;
-	
-	@OneToMany(mappedBy = "user" , cascade = CascadeType.ALL ,fetch = FetchType.LAZY)
+
+	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private List<Post> posts = new ArrayList<>();
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
-		
+
 		return null;
 	}
 
 	@Override
-	public String getUsername() {	
+	public String getUsername() {
 		return this.email;
 	}
 
